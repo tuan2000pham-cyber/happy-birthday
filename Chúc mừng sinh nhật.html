@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Happy Birthday ❤️</title>
+<style>
+body{margin:0;font-family:Arial;background:#111;color:#fff;overflow:hidden}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#start{background:linear-gradient(#111,#2b1633)}
+h1{font-size:56px}button{padding:16px 32px;border:0;border-radius:30px;font-size:22px;background:#ff5f9e;color:#fff;cursor:pointer}
+#slide,#end{display:none}
+#photo{max-width:80vw;max-height:70vh;border-radius:18px;box-shadow:0 0 30px #000}
+#msg{max-width:800px;padding:20px;font-size:22px;line-height:1.8;text-align:center}
+.heart{position:fixed;font-size:20px;animation:fly 3s linear forwards}
+@keyframes fly{to{transform:translateY(-120vh);opacity:0}}
+</style></head>
+<body>
+<div id="start" class="screen"><h1>🎂 Happy Birthday 🎂</h1><button onclick="go()">💖 Bấm vào đây 💖</button></div>
+<div id="slide" class="screen"><img id="photo"></div>
+<div id="end" class="screen"><h1>💖 Happy Birthday My Love 💖</h1><div id="msg"></div><button onclick="location.reload()">💞 Xem lại</button></div>
+<audio id="music" controls style="position:fixed;bottom:10px;left:10px"><source src="music.mp3"></audio>
+<script>
+const images=[];for(let i=1;i<=100;i++)images.push(`images/${i}.jpg`);
+const text=`Gửi người anh yêu,
+
+Chúc em có một sinh nhật thật hạnh phúc.
+Cảm ơn em đã đến bên anh, mang đến rất nhiều tiếng cười và những kỷ niệm đẹp.
+
+Anh mong tuổi mới sẽ đem đến cho em thật nhiều sức khỏe, niềm vui và thành công.
+Anh cũng chúc cho em luôn làm ra những bộ nail thật đẹp, cũng như việc học và việc thể dục luôn được kết quả thật ok.
+
+Anh yêu em rất nhiều! ❤️`;
+function go(){
+document.getElementById('start').style.display='none';
+document.getElementById('slide').style.display='flex';
+document.getElementById('music').play().catch(()=>{});
+let idx=0;const img=document.getElementById('photo');
+function next(){
+ if(idx>=images.length){finish();return;}
+ img.onerror=()=>{finish();}
+ img.onload=()=>{idx++;setTimeout(next,1500);}
+ img.src=images[idx];
+}
+next();
+}
+function finish(){
+document.getElementById('slide').style.display='none';
+document.getElementById('end').style.display='flex';
+let i=0;const m=document.getElementById('msg');
+let t=setInterval(()=>{m.innerHTML=text.slice(0,i).replace(/\n/g,"<br>");i++;if(i>text.length)clearInterval(t);},35);
+setInterval(()=>{
+ let h=document.createElement('div');h.className='heart';h.textContent='❤️';
+ h.style.left=Math.random()*100+'vw';h.style.bottom='-20px';document.body.appendChild(h);
+ setTimeout(()=>h.remove(),3000);
+},250);
+}
+</script></body></html>
